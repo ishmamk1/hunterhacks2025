@@ -5,7 +5,9 @@ import numpy as np
 import cv2
 import io
 import base64
-
+import db
+from db import SessionLocal, Room 
+import time
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -36,13 +38,49 @@ def get_room_image(room_id):
 
 @app.route('/daedalus_lounge', methods=['GET'])
 def daedalus_lounge():
+    session = SessionLocal()
+
+
+    room = session.query(Room).filter(Room.name == "Daedalus Lounge")
+    if not room: 
+        return jasonify({"message": "There is no suche room"})
+
+    room.updated = True
+    session.commit(room)
+
+    time_counter = 0
+    while True:
+       
+        time.sleep(.5)
+        time_counter += 1
+
+        session.refresh(room)
+
+       
+        if room.updated == False or time_counter == 120: # if the database was updated or this ran for about 1 minute.
+            print("Room was updated in the DB!")
+            break
+
+
+    # room_data = {
+    #     "name": "Daedalus Lounge",
+    #     "capacity": 50,
+    #     "current_occupancy": 25,
+    #     "status": "Open"
+    # }
+
     room_data = {
-        "name": "Daedalus Lounge",
-        "capacity": 50,
-        "current_occupancy": 25,
+        "name": room.name,
+        "description": room.description,
+        "current_occupancy": room.current_occupancy,
+        "total_occupancy": room.total_occupancy,
+        "computer_access": room.computer_access,
+        "location": room.location,
+        "permitted_volume": room.permitted_volume,
         "status": "Open"
     }
     
+    room_data["picture"]= room.picture
     img_base64 = get_room_image('daedalus_lounge')
     if img_base64:
         room_data['image'] = f"data:image/jpeg;base64,{img_base64}"

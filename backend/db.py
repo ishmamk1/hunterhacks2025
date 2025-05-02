@@ -3,11 +3,21 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import os
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
+from dotenv import load_dotenv
 
 
 from sqlalchemy.ext.declarative import declarative_base
-from pydantic import BaseModel
+
+
 import datetime
+
+
+
+
+load_dotenv()
+print("DATABASE_URL =", os.getenv("DATABASE_URL"))
+
+
 # Database URL (update this with your actual database connection string)
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
  #"postgresql://postgres:marci@localhost:5432/kingdom"
@@ -22,8 +32,16 @@ engine = create_engine(
 )
 
 
+
+
 # Create a sessionmaker
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+
+
+
+
 
 
 
@@ -33,29 +51,36 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 
+
+
 class Room(Base):
-    __tablename__ = "Room"
-    updated = Column(Boolean, default=True)
-
-
+    __tablename__ = "rooms"
+    
     id = Column(Integer, primary_key=True)
+    name = Column(String , nullable=False )
+    updated = Column(Boolean, default=True)
     description = Column(String, nullable=False)
     location = Column(String, nullable=False)
-    last_updated = Column(DateTime, nullable = False)
    
-    whiteboard = Column(Boolean, nullable= False)
-    volume = Column(String, nullable = False)
-
-
-    last_updated = Column(DateTime, default=datetime.datetime.now, onupdate=datetime.datetime.now)
-
+    last_updated = Column(DateTime(timezone=True), default=datetime.datetime.now, onupdate=datetime.datetime.now)
 
     current_occupancy= Column(Integer, nullable = True)
     total_occupancy = Column(Integer, nullable= False)
+
     computer_access = Column(Boolean, nullable = False)
+    whiteboard_access= Column(Boolean, nullable= False)
+    permitted_volume = Column(String, nullable = False)
 
 
     picture = Column(String, nullable = True)
+
+
+
+
+
+
+
+
 
 
 
@@ -68,10 +93,4 @@ Base.metadata.create_all(engine)
    
 
 
-# Dependency to get a database session
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+
