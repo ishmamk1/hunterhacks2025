@@ -17,7 +17,6 @@ interface RoomData {
         const response = await fetch(`http://127.0.0.1:5001/${room}`);
         const data = await response.json();
         
-        // Log the received image data to verify it's coming through
         console.log('Received image data:', data.image?.slice(0, 100));
         
         setRoomData(data);
