@@ -1,5 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import requests
+import numpy as np
+import cv2
+import io
+import base64
 
 
 app = Flask(__name__)
@@ -9,6 +14,26 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def hello():
     return "hello world"
 
+def get_room_image(room_id):
+    try:
+        # Make GET request to the screenshot server
+        res = requests.get("http://10.120.10.93:5000/screenshot")
+        
+        # Convert bytes to a NumPy array
+        img_array = np.frombuffer(res.content, dtype=np.uint8)
+        
+        # Decode image using OpenCV
+        img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+        
+        # Convert image to base64
+        _, buffer = cv2.imencode('.jpg', img)
+        img_base64 = base64.b64encode(buffer).decode('utf-8')
+        
+        return img_base64
+    except Exception as e:
+        print(f"Error processing image: {e}")
+        return None
+
 @app.route('/daedalus_lounge', methods=['GET'])
 def daedalus_lounge():
     room_data = {
@@ -17,6 +42,11 @@ def daedalus_lounge():
         "current_occupancy": 25,
         "status": "Open"
     }
+    
+    img_base64 = get_room_image('daedalus_lounge')
+    if img_base64:
+        room_data['image'] = f"data:image/jpeg;base64,{img_base64}"
+    
     return jsonify(room_data)
 
 @app.route('/west_lobby', methods=['GET'])
@@ -27,6 +57,10 @@ def west_lobby():
         "current_occupancy": 40,
         "status": "Busy"
     }
+    img_base64 = get_room_image('west_lobby')
+    if img_base64:
+        room_data['image'] = f"data:image/jpeg;base64,{img_base64}"
+    
     return jsonify(room_data)
 
 @app.route('/east_library', methods=['GET'])
@@ -37,6 +71,10 @@ def east_library():
         "current_occupancy": 60,
         "status": "Available"
     }
+    img_base64 = get_room_image('east_library')
+    if img_base64:
+        room_data['image'] = f"data:image/jpeg;base64,{img_base64}"
+    
     return jsonify(room_data)
 
 if __name__ == '__main__':
