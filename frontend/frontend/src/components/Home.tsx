@@ -1,43 +1,102 @@
-import React from 'react';
-import { Box, Button, Container, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, Container, Typography, Card, CardContent } from '@mui/material';
+
+interface RoomData {
+  name: string;
+  capacity?: number;
+  current_occupancy?: number;
+  status?: string;
+}
 
 const Home: React.FC = () => {
+  const [roomData, setRoomData] = useState<RoomData | null>(null);
+
+  const handleRoomClick = async (room: string) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:5001/${room}`);
+      const data = await response.json();
+      setRoomData(data);
+    } catch (error) {
+      console.error('Error fetching room data:', error);
+      setRoomData(null);
+    }
+  };
+
+  const handleBack = () => {
+    setRoomData(null);
+  };
+
   return (
     <Container maxWidth="md" sx={{ textAlign: 'center', mt: 8 }}>
       <Typography variant="h2" component="h1" gutterBottom>
         Welcome to Hunter College
       </Typography>
       
-      <Box sx={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        gap: 3,
-        mt: 4 
-      }}>
-        <Button 
-          variant="contained" 
-          size="large"
-          sx={{ fontSize: '1.2rem', py: 2 }}
-        >
-          Daedalus Lounge
-        </Button>
-        
-        <Button 
-          variant="contained" 
-          size="large"
-          sx={{ fontSize: '1.2rem', py: 2 }}
-        >
-          West 3rd
-        </Button>
-        
-        <Button 
-          variant="contained" 
-          size="large"
-          sx={{ fontSize: '1.2rem', py: 2 }}
-        >
-          East Library
-        </Button>
-      </Box>
+      {roomData ? (
+        <Card sx={{ mt: 4, p: 2 }}>
+          <CardContent>
+            <Typography variant="h4" gutterBottom>
+              {roomData.name}
+            </Typography>
+            {roomData.capacity && (
+              <Typography variant="body1">
+                Capacity: {roomData.capacity}
+              </Typography>
+            )}
+            {roomData.current_occupancy !== undefined && (
+              <Typography variant="body1">
+                Current Occupancy: {roomData.current_occupancy}
+              </Typography>
+            )}
+            {roomData.status && (
+              <Typography variant="body1">
+                Status: {roomData.status}
+              </Typography>
+            )}
+            <Button
+              variant="contained"
+              sx={{ mt: 2 }}
+              onClick={handleBack}
+            >
+              Back to Rooms
+            </Button>
+          </CardContent>
+        </Card>
+      ) : (
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: 3,
+          mt: 4 
+        }}>
+          <Button 
+            variant="contained" 
+            size="large"
+            sx={{ fontSize: '1.2rem', py: 2 }}
+            onClick={() => handleRoomClick('daedalus_lounge')}
+          >
+            Daedalus Lounge
+          </Button>
+          
+          <Button 
+            variant="contained" 
+            size="large"
+            sx={{ fontSize: '1.2rem', py: 2 }}
+            onClick={() => handleRoomClick('west_lobby')}
+          >
+            West 3rd
+          </Button>
+          
+          <Button 
+            variant="contained" 
+            size="large"
+            sx={{ fontSize: '1.2rem', py: 2 }}
+            onClick={() => handleRoomClick('east_library')}
+          >
+            East Library
+          </Button>
+        </Box>
+      )}
     </Container>
   );
 };
