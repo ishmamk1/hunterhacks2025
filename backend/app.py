@@ -41,22 +41,27 @@ def daedalus_lounge():
     session = SessionLocal()
 
 
-    room = session.query(Room).filter(Room.name == "Daedalus Lounge")
+    room = session.query(Room).filter(Room.name == "Daedalus Lounge").first()
     if not room: 
         return jasonify({"message": "There is no suche room"})
 
-    room.updated = True
-    session.commit(room)
+
+
+
+    if room.updated == False:
+
+        room.updated = True
+        session.commit(room)
 
     time_counter = 0
     while True:
-       
+    
         time.sleep(.5)
         time_counter += 1
 
         session.refresh(room)
 
-       
+    
         if room.updated == False or time_counter == 120: # if the database was updated or this ran for about 1 minute.
             print("Room was updated in the DB!")
             break
