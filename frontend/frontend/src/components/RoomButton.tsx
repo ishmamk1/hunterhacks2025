@@ -26,7 +26,7 @@ const RoomButtons: React.FC<RoomButtonsProps> = ({
   onRoomClick,
   searchTerm,
 }) => {
-  const getRandomStatus = () => (Math.random() > 0.5 ? 'Open' : 'Closed');
+  const getRandomStatus = () => ('Open');
 
   return (
     <Box

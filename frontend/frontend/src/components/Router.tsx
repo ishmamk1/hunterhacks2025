@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import ChatBot from "./ChatBot";
 import About from "./About";
+import EventsPage from "./Events";
 
 // Import your components
 
@@ -13,6 +14,7 @@ const Router: React.FC = () => {
         <Route path="/" Component={Home}></Route>
         <Route path="*" Component={Home}></Route>
         <Route path="/chat" Component={ChatBot}></Route>
+        <Route path="/events" Component={EventsPage}></Route>
         <Route path="/about" Component={About}></Route>
       </Routes>
     </BrowserRouter>

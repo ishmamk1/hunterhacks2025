@@ -33,7 +33,22 @@ interface RoomInfoCardProps {
   onBack: () => void;
 }
 
+const getHardcodedOccupancy = (roomName: string) => {
+  switch (roomName) {
+    case 'Daedalus Lounge':
+      return Math.floor(Math.random() * 11); // Random between 0-10
+    case 'East Library':
+      return Math.floor(Math.random() * 41); // Random between 0-40
+    case 'West Lobby':
+      return Math.floor(Math.random() * 71) + 70; // Random between 70-140
+    default:
+      return 0; // Default if no match
+  }
+};
+
 const RoomInfoCard: React.FC<RoomInfoCardProps> = ({ roomData, onBack }) => {
+  const hardcodedOccupancy = getHardcodedOccupancy(roomData.name);
+
   return (
     <Card
       sx={{
@@ -88,11 +103,9 @@ const RoomInfoCard: React.FC<RoomInfoCardProps> = ({ roomData, onBack }) => {
             </Typography>
           )}
 
-          {roomData.current_occupancy != null && (
-            <Typography variant="body1" sx={{ color: '#333', mb: 0.5 }}>
-              <strong>Current Occupancy:</strong> {roomData.current_occupancy}
-            </Typography>
-          )}
+          <Typography variant="body1" sx={{ color: '#333', mb: 0.5 }}>
+            <strong>Current Occupancy:</strong> {hardcodedOccupancy}
+          </Typography>
 
           {roomData.status && (
             <Chip
@@ -185,5 +198,6 @@ const RoomInfoCard: React.FC<RoomInfoCardProps> = ({ roomData, onBack }) => {
 };
 
 export default RoomInfoCard;
+
 
 

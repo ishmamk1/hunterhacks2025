@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import daedalusImg from '../assets/daedalus.jpg';
+import daedalusImg from '../assets/cs_lounge.jpeg';
 import eastLibraryImg from '../assets/east_library.jpg';
 import cafeteriaImg from '../assets/cafeteria.jpg';
 import westLobbyImg from '../assets/west_lobby.jpg';
@@ -45,8 +45,8 @@ const FILTER_OPTIONS = [
 const ROOM_MAP = [
   {
     id: 'daedalus_lounge',
-    name: 'Daedalus Lounge',
-    floor: '3rd Floor',
+    name: 'Computer Science Lounge',
+    floor: '10th Floor',
     image: daedalusImg,
     filters: ['Whiteboard', 'Speaking Allowed', 'Group Work'],
   },
@@ -164,7 +164,7 @@ const Home: React.FC = () => {
             mb: 4,
           }}
         >
-          Welcome to Hunter College
+          ReadTheRoom
         </Typography>
 
         {!roomData && (
