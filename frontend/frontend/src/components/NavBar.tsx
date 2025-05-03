@@ -6,9 +6,9 @@ export default function Navbar() {
       <header className="navbar-header">
         {/* Left: About Us and Home */}
         <div className="navbar-left">
-          <button className="about-us-button">About Us</button>
-          <a href="/chat" className="home-button">Chat</a>
-          <a href="/" className="home-button">Home</a>
+        <a href = "/about"> <button className="about-us-button">About Us</button> </a>
+        <a href="/chat" className="home-button">Chat</a>
+        <a href="/" className="home-button">Home</a>
         </div>
 
         {/* Right: GitHub Icon Button */}
