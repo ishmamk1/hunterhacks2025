@@ -7,6 +7,7 @@ import east4thLobbyImg from '../assets/4fl_lobby.jpg';
 import east6thLibraryImg from '../assets/6fl_library.jpg';
 import dolcianiCenterImg from '../assets/dolciani.jpg';
 import studentUnionImg from '../assets/student_union.jpg';
+import logo from '../assets/logo-01.png';
 import LoadingSpinner from './LoadingSpinner';
 import './Home.css';
 
@@ -101,10 +102,6 @@ const ROOM_MAP = [
   }
 ];
 
-
-  
-
-
 const Home: React.FC = () => {
   const [roomData, setRoomData] = useState<RoomData | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -154,6 +151,10 @@ const Home: React.FC = () => {
       }}
     >
       <Container maxWidth="md" sx={{ textAlign: 'center' }}>
+        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
+          <img src={logo} alt="ReadTheRoom Logo" style={{ height: 80 }} />
+        </Box>
+
         <Typography
           variant="h2"
           component="h1"
@@ -221,28 +222,26 @@ const Home: React.FC = () => {
           </>
         )}
 
-    <div className="home-container">
-      {roomData ? (
-        <RoomInfoCard roomData={roomData} onBack={handleBack} />
-      ) : (
-        <RoomButtons
-          rooms={filteredRooms}
-          onRoomClick={handleRoomClick}
-          searchTerm={searchTerm}
-        />
-      )}
+        <div className="home-container">
+          {roomData ? (
+            <RoomInfoCard roomData={roomData} onBack={handleBack} />
+          ) : (
+            <RoomButtons
+              rooms={filteredRooms}
+              onRoomClick={handleRoomClick}
+              searchTerm={searchTerm}
+            />
+          )}
 
-      {loading && (
-        <div className="loading-overlay">
-          <LoadingSpinner />
+          {loading && (
+            <div className="loading-overlay">
+              <LoadingSpinner />
+            </div>
+          )}
         </div>
-      )}
-    </div>
-
       </Container>
     </Box>
   );
 };
 
 export default Home;
-
