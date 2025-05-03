@@ -6,15 +6,26 @@ import {
   Card,
   CardContent,
   Divider,
+  Chip,
+  Stack,
 } from '@mui/material';
-import BusyChart from './Busy'; // Adjust this path based on your folder structure
+import ComputerIcon from '@mui/icons-material/Computer';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import InfoIcon from '@mui/icons-material/Info';
+import BusyChart from './Busy'; // Adjust path as needed
 
 interface RoomData {
   name: string;
+  description?: string;
   capacity?: number;
   current_occupancy?: number;
   status?: string;
   image?: string;
+  computer_access?: boolean;
+  location?: string;
+  permitted_volume?: string;
+  filters?: string[];
 }
 
 interface RoomInfoCardProps {
@@ -62,6 +73,14 @@ const RoomInfoCard: React.FC<RoomInfoCardProps> = ({ roomData, onBack }) => {
           </Box>
         )}
 
+        {roomData.description && (
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="body1" sx={{ color: '#333', display: 'flex', alignItems: 'center' }}>
+              <InfoIcon sx={{ mr: 1 }} /> {roomData.description}
+            </Typography>
+          </Box>
+        )}
+
         <Box sx={{ mb: 2 }}>
           {roomData.capacity != null && (
             <Typography variant="body1" sx={{ color: '#333', mb: 0.5 }}>
@@ -76,11 +95,66 @@ const RoomInfoCard: React.FC<RoomInfoCardProps> = ({ roomData, onBack }) => {
           )}
 
           {roomData.status && (
-            <Typography variant="body1" sx={{ color: '#333' }}>
-              <strong>Status:</strong> {roomData.status}
-            </Typography>
+            <Chip
+              label={roomData.status}
+              color="success"
+              sx={{
+                mt: 1,
+                backgroundColor: '#d1ffe0',
+                color: '#2e7d32',
+                fontWeight: 'bold',
+              }}
+            />
           )}
         </Box>
+
+        <Divider sx={{ my: 2 }} />
+
+        <Stack spacing={1} sx={{ mb: 2 }}>
+          {roomData.computer_access !== undefined && (
+            <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', color: '#444' }}>
+              <ComputerIcon sx={{ mr: 1 }} />
+              {roomData.computer_access ? 'Computer Access Available' : 'No Computer Access'}
+            </Typography>
+          )}
+
+          {roomData.location && (
+            <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', color: '#444' }}>
+              <LocationOnIcon sx={{ mr: 1 }} />
+              {roomData.location}
+            </Typography>
+          )}
+
+          {roomData.permitted_volume && (
+            <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', color: '#444' }}>
+              <VolumeUpIcon sx={{ mr: 1 }} />
+              Volume Level: {roomData.permitted_volume}
+            </Typography>
+          )}
+        </Stack>
+
+        {roomData.filters && roomData.filters.length > 0 && (
+          <>
+            <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 600 }}>
+              Features:
+            </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+              {roomData.filters.map((filter, index) => (
+                <Chip
+                  key={index}
+                  label={filter}
+                  variant="outlined"
+                  sx={{
+                    borderColor: '#9b5de5',
+                    color: '#5f259f',
+                    fontWeight: '500',
+                    backgroundColor: '#f3e8ff',
+                  }}
+                />
+              ))}
+            </Box>
+          </>
+        )}
 
         <Divider sx={{ my: 3 }} />
 
@@ -111,4 +185,5 @@ const RoomInfoCard: React.FC<RoomInfoCardProps> = ({ roomData, onBack }) => {
 };
 
 export default RoomInfoCard;
+
 

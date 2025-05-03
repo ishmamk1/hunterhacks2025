@@ -11,6 +11,8 @@ import {
   Card,
   CardContent,
   TextField,
+  ToggleButton,
+  ToggleButtonGroup,
 } from '@mui/material';
 import RoomButtons from './RoomButton';
 import RoomInfoCard from './RoomInfoCard';
@@ -23,64 +25,82 @@ interface RoomData {
   image?: string;
 }
 
-const ROOM_MAP = [
-    {
-      id: 'daedalus_lounge',
-      name: 'Daedalus Lounge',
-      floor: '3rd Floor',
-      image: daedalusImg,
-    },
-    {
-      id: 'east_library',
-      name: 'East Library',
-      floor: '3rd Floor',
-      image: daedalusImg,
-    },
-    {
-      id: 'cafeteria',
-      name: 'Cafeteria',
-      floor: '3rd Floor',
-      image: daedalusImg,
-    },
-    {
-      id: 'west_lobby',
-      name: 'West 3rd Floor Lobby',
-      floor: '3rd Floor',
-      image: daedalusImg,
-    },
-    {
-      id: 'east_4th_lobby',
-      name: 'East 4th Floor Lobby',
-      floor: '4th Floor',
-      image: daedalusImg,
-    },
-    {
-      id: 'east_6th_library',
-      name: 'East Library',
-      floor: '6th Floor',
-      image: daedalusImg,
-    },
-    {
-      id: 'dolciani_center',
-      name: 'Dolciani Center',
-      floor: '7th Floor (East)',
-      image: daedalusImg,
-    },
-  ];
-  
+const FILTER_OPTIONS = [
+  'Quiet',
+  'Whiteboard',
+  'Speaking Allowed',
+  'Eating Allowed',
+  'Silent Zone',
+  'Group Work',
+  'Tutoring Zone',
+];
 
+const ROOM_MAP = [
+  {
+    id: 'daedalus_lounge',
+    name: 'Daedalus Lounge',
+    floor: '3rd Floor',
+    image: daedalusImg,
+    filters: ['Whiteboard', 'Speaking Allowed', 'Group Work'],
+  },
+  {
+    id: 'east_library',
+    name: 'East Library',
+    floor: '3rd Floor',
+    image: daedalusImg,
+    filters: ['Quiet', 'Silent Zone'],
+  },
+  {
+    id: 'cafeteria',
+    name: 'Cafeteria',
+    floor: '3rd Floor',
+    image: daedalusImg,
+    filters: ['Eating Allowed', 'Speaking Allowed'],
+  },
+  {
+    id: 'west_lobby',
+    name: 'West 3rd Floor Lobby',
+    floor: '3rd Floor',
+    image: daedalusImg,
+    filters: ['Group Work', 'Speaking Allowed'],
+  },
+  {
+    id: 'east_4th_lobby',
+    name: 'East 4th Floor Lobby',
+    floor: '4th Floor',
+    image: daedalusImg,
+    filters: ['Group Work', 'Whiteboard'],
+  },
+  {
+    id: 'east_6th_library',
+    name: 'East Library',
+    floor: '6th Floor',
+    image: daedalusImg,
+    filters: ['Speaking Allowed'],
+  },
+  {
+    id: 'dolciani_center',
+    name: 'Dolciani Center',
+    floor: '7th Floor (East)',
+    image: daedalusImg,
+    filters: ['Tutoring Zone', 'Whiteboard'],
+  },
+];
 
 const Home: React.FC = () => {
   const [roomData, setRoomData] = useState<RoomData | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
-  const filteredRooms = useMemo(
-    () =>
-      ROOM_MAP.filter((room) =>
-        room.name.toLowerCase().includes(searchTerm.toLowerCase())
-      ),
-    [searchTerm]
-  );
+  const filteredRooms = useMemo(() => {
+    return ROOM_MAP.filter((room) => {
+      const matchesSearch = room.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesFilters =
+        selectedFilters.length === 0 ||
+        selectedFilters.every((filter) => room.filters.includes(filter));
+      return matchesSearch && matchesFilters;
+    });
+  }, [searchTerm, selectedFilters]);
 
   const handleRoomClick = async (room: string) => {
     try {
@@ -94,6 +114,13 @@ const Home: React.FC = () => {
   };
 
   const handleBack = () => setRoomData(null);
+
+  const handleFilterChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newFilters: string[]
+  ) => {
+    setSelectedFilters(newFilters);
+  };
 
   return (
     <Box
@@ -119,23 +146,57 @@ const Home: React.FC = () => {
         </Typography>
 
         {!roomData && (
-          <TextField
-            fullWidth
-            label="Search rooms…"
-            variant="outlined"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            sx={{
-              mb: 4,
-              backgroundColor: '#f8f5ff',
-              borderRadius: 2,
-              input: { color: '#2e026d' },
-              fieldset: { borderColor: '#9b5de5' },
-              '&:hover fieldset': { borderColor: '#9b5de5' },
-              '&.Mui-focused fieldset': { borderColor: '#5f259f' },
-            }}
-            autoComplete="off"
-          />
+          <>
+            <TextField
+              fullWidth
+              label="Search rooms…"
+              variant="outlined"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              sx={{
+                mb: 3,
+                backgroundColor: '#f8f5ff',
+                borderRadius: 2,
+                input: { color: '#2e026d' },
+                fieldset: { borderColor: '#9b5de5' },
+                '&:hover fieldset': { borderColor: '#9b5de5' },
+                '&.Mui-focused fieldset': { borderColor: '#5f259f' },
+              }}
+              autoComplete="off"
+            />
+
+            <ToggleButtonGroup
+              value={selectedFilters}
+              onChange={handleFilterChange}
+              aria-label="room filters"
+              sx={{
+                flexWrap: 'wrap',
+                gap: 1,
+                mb: 4,
+                justifyContent: 'center',
+              }}
+            >
+              {FILTER_OPTIONS.map((filter) => (
+                <ToggleButton
+                  key={filter}
+                  value={filter}
+                  aria-label={filter}
+                  sx={{
+                    borderRadius: 3,
+                    textTransform: 'none',
+                    borderColor: '#9b5de5',
+                    color: '#5f259f',
+                    '&.Mui-selected': {
+                      backgroundColor: '#e0d4fa',
+                      color: '#5f259f',
+                    },
+                  }}
+                >
+                  {filter}
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+          </>
         )}
 
         {roomData ? (
@@ -153,3 +214,4 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+
