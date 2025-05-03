@@ -20,10 +20,17 @@ interface RoomData {
 }
 
 const ROOM_MAP = [
-  { id: 'daedalus_lounge', name: 'Daedalus Lounge', floor: '3rd Floor' },
-  { id: 'east_library', name: 'East Library', floor: '2nd Floor' },
-  { id: 'west_lobby', name: 'West 3rd Floor Lobby', floor: '3rd Floor' },
-];
+    { id: 'daedalus_lounge', name: 'Daedalus Lounge', floor: '3rd Floor' },
+    { id: 'east_library', name: 'East Library', floor: '3rd Floor' },
+    { id: 'cafeteria', name: 'Cafeteria', floor: '3rd Floor' },
+    { id: '10th_floor_cs_lounge', name: 'CS Lounge', floor: '10th Floor' },
+    { id: 'west_lobby', name: 'West 3rd Floor Lobby', floor: '3rd Floor' },
+    { id: 'east_4th_lobby', name: 'East 4th Floor Lobby', floor: '4th Floor' },
+    { id: 'east_5th_lobby', name: 'East 5th Floor Lobby', floor: '4th Floor' },
+    { id: 'east_6th_library', name: 'East 6th Floor Library', floor: '6th Floor' },
+    { id: 'dolciani_center', name: 'Dolciani Center', floor: '7th Floor (East)' },
+  ];
+  
 
 const Home: React.FC = () => {
   const [roomData, setRoomData] = useState<RoomData | null>(null);
