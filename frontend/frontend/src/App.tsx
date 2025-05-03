@@ -4,6 +4,7 @@ import Navbar from './components/NavBar';
 import Home from './components/Home';
 import BusyChart from './components/Busy';
 import './App.css';
+import Router from './components/Router';
 
 function App() {
   return (
@@ -36,7 +37,7 @@ function App() {
           disableGutters
           sx={{ px: { xs: 2, md: 4 }, pt: 4, pb: 4 }}
         >
-          <Home />
+          <Router/>
           <BusyChart locationName="daedalus_lounge" />
         </Container>
       </Box>
