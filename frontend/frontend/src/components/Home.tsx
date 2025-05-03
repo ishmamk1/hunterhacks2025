@@ -24,25 +24,50 @@ interface RoomData {
 }
 
 const ROOM_MAP = [
-  {
-    id: 'daedalus_lounge',
-    name: 'Daedalus Lounge',
-    floor: '3rd Floor',
-    image: daedalusImg,
-  },
-  {
-    id: 'east_library',
-    name: 'East Library',
-    floor: '2nd Floor',
-    image: eastLibraryImg,
-  },
-  {
-    id: 'west_lobby',
-    name: 'West 3rd Floor Lobby',
-    floor: '3rd Floor',
-    image: westLobbyImg,
-  },
-];
+    {
+      id: 'daedalus_lounge',
+      name: 'Daedalus Lounge',
+      floor: '3rd Floor',
+      image: daedalusImg,
+    },
+    {
+      id: 'east_library',
+      name: 'East Library',
+      floor: '3rd Floor',
+      image: daedalusImg,
+    },
+    {
+      id: 'cafeteria',
+      name: 'Cafeteria',
+      floor: '3rd Floor',
+      image: daedalusImg,
+    },
+    {
+      id: 'west_lobby',
+      name: 'West 3rd Floor Lobby',
+      floor: '3rd Floor',
+      image: daedalusImg,
+    },
+    {
+      id: 'east_4th_lobby',
+      name: 'East 4th Floor Lobby',
+      floor: '4th Floor',
+      image: daedalusImg,
+    },
+    {
+      id: 'east_6th_library',
+      name: 'East Library',
+      floor: '6th Floor',
+      image: daedalusImg,
+    },
+    {
+      id: 'dolciani_center',
+      name: 'Dolciani Center',
+      floor: '7th Floor (East)',
+      image: daedalusImg,
+    },
+  ];
+  
 
 
 const Home: React.FC = () => {
