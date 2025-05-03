@@ -16,10 +16,10 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def hello():
     return "hello world"
 
-def get_room_image(room_id):
+def get_room_image(picture_url):
     try:
         # Make GET request to the screenshot server
-        res = requests.get("http://10.120.10.93:5000/screenshot")
+        res = requests.get(picture_url)
         
         # Convert bytes to a NumPy array
         img_array = np.frombuffer(res.content, dtype=np.uint8)
@@ -48,10 +48,10 @@ def daedalus_lounge():
 
 
 
-    if room.updated == False:
+    if room.updating == False:
 
-        room.updated = True
-        session.commit(room)
+        room.updating = True
+        session.commit()
 
     time_counter = 0
     while True:
@@ -62,7 +62,7 @@ def daedalus_lounge():
         session.refresh(room)
 
     
-        if room.updated == False or time_counter == 120: # if the database was updated or this ran for about 1 minute.
+        if room.updating == False or time_counter == 120: # if the database was updated or this ran for about 1 minute.
             print("Room was updated in the DB!")
             break
 
@@ -85,8 +85,8 @@ def daedalus_lounge():
         "status": "Open"
     }
     
-    room_data["picture"]= room.picture
-    img_base64 = get_room_image('daedalus_lounge')
+  
+    img_base64 = get_room_image(room.picture)
     if img_base64:
         room_data['image'] = f"data:image/jpeg;base64,{img_base64}"
     
