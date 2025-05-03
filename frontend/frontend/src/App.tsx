@@ -38,7 +38,6 @@ function App() {
           sx={{ px: { xs: 2, md: 4 }, pt: 4, pb: 4 }}
         >
           <Router/>
-          <BusyChart locationName="daedalus_lounge" />
         </Container>
       </Box>
     </>

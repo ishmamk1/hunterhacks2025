@@ -25,7 +25,7 @@ SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 # Create the SQLAlchemy engine
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
-    pool_size=3,        # Number of connections to keep in pool
+    pool_size=1,        # Number of connections to keep in pool
     max_overflow=10,      # Extra connections beyond pool_size
     pool_timeout=30,      # Seconds to wait before giving up on a connection
     pool_recycle=1800,    # Recycle connections every 30 minutes
