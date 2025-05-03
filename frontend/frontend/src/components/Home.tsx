@@ -62,7 +62,7 @@ const ROOM_MAP = [
     name: 'Cafeteria',
     floor: '3rd Floor',
     image: cafeteriaImg,
-    filters: ['Eating Allowed', 'Speaking Allowed'],
+    filters: ['Eating Allowed', 'Speaking Allowed', 'Group Work'],
   },
   {
     id: 'west_lobby',
@@ -76,21 +76,21 @@ const ROOM_MAP = [
     name: 'East 4th Floor Lobby',
     floor: '4th Floor',
     image: east4thLobbyImg,
-    filters: ['Group Work', 'Whiteboard'],
+    filters: ['Group Work', 'Whiteboard', 'Speaking Allowed'],
   },
   {
     id: 'east_6th_library',
     name: 'East Library',
     floor: '6th Floor',
     image: east6thLibraryImg,
-    filters: ['Speaking Allowed'],
+    filters: ['Speaking Allowed', 'Group Work', 'Whiteboard', 'Eating Allowed'],
   },
   {
     id: 'dolciani_center',
     name: 'Dolciani Center',
     floor: '7th Floor (East)',
     image: dolcianiCenterImg,
-    filters: ['Tutoring Zone', 'Whiteboard'],
+    filters: ['Tutoring Zone', 'Whiteboard', 'Group Work'],
   },
   {
     id: 'student_union',
