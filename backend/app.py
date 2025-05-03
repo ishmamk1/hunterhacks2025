@@ -11,7 +11,7 @@ import time
 from flask_sock import Sock
 import asyncio
 import json
-from .chatBot import prompt_maker, ask_gemini
+from chatBot import prompt_maker, ask_gemini
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
