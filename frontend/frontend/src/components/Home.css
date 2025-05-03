@@ -1,0 +1,16 @@
+.home-container {
+    position: relative; /* Ensure the container is positioned for the overlay */
+  }
+  
+.loading-overlay {
+    position: fixed; /* Overlay covers the entire screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it appears above other content */
+  }

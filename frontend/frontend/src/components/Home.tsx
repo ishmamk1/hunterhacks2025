@@ -7,7 +7,8 @@ import east4thLobbyImg from '../assets/4fl_lobby.jpg';
 import east6thLibraryImg from '../assets/6fl_library.jpg';
 import dolcianiCenterImg from '../assets/dolciani.jpg';
 import studentUnionImg from '../assets/student_union.jpg';
-
+import LoadingSpinner from './LoadingSpinner';
+import './Home.css';
 
 import {
   Box,
@@ -108,6 +109,7 @@ const Home: React.FC = () => {
   const [roomData, setRoomData] = useState<RoomData | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const filteredRooms = useMemo(() => {
     return ROOM_MAP.filter((room) => {
@@ -120,6 +122,7 @@ const Home: React.FC = () => {
   }, [searchTerm, selectedFilters]);
 
   const handleRoomClick = async (room: string) => {
+    setLoading(true);
     try {
       const response = await fetch(`http://127.0.0.1:5001/${room}`);
       const data = await response.json();
@@ -127,6 +130,8 @@ const Home: React.FC = () => {
     } catch (error) {
       console.error('Error fetching room data:', error);
       setRoomData(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -216,15 +221,24 @@ const Home: React.FC = () => {
           </>
         )}
 
-        {roomData ? (
-          <RoomInfoCard roomData={roomData} onBack={handleBack} />
-        ) : (
-          <RoomButtons
-            rooms={filteredRooms}
-            onRoomClick={handleRoomClick}
-            searchTerm={searchTerm}
-          />
-        )}
+    <div className="home-container">
+      {roomData ? (
+        <RoomInfoCard roomData={roomData} onBack={handleBack} />
+      ) : (
+        <RoomButtons
+          rooms={filteredRooms}
+          onRoomClick={handleRoomClick}
+          searchTerm={searchTerm}
+        />
+      )}
+
+      {loading && (
+        <div className="loading-overlay">
+          <LoadingSpinner />
+        </div>
+      )}
+    </div>
+
       </Container>
     </Box>
   );
