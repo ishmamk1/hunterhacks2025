@@ -159,7 +159,7 @@ const Home: React.FC = () => {
             mb: 4,
           }}
         >
-          Welcome to Hunter College
+          ReadTheRoom
         </Typography>
 
         {!roomData && (
