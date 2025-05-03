@@ -1,10 +1,18 @@
 import React from 'react';
-import { Box, Typography, Card, CardMedia, CardContent, Chip } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+  Chip,
+} from '@mui/material';
 
 interface Room {
   id: string;
   name: string;
   floor: string;
+  image?: string; // ✅ Add image to Room interface
 }
 
 interface RoomButtonsProps {
@@ -13,7 +21,11 @@ interface RoomButtonsProps {
   searchTerm: string;
 }
 
-const RoomButtons: React.FC<RoomButtonsProps> = ({ rooms, onRoomClick, searchTerm }) => {
+const RoomButtons: React.FC<RoomButtonsProps> = ({
+  rooms,
+  onRoomClick,
+  searchTerm,
+}) => {
   const getRandomStatus = () => (Math.random() > 0.5 ? 'Open' : 'Closed');
 
   return (
@@ -47,12 +59,18 @@ const RoomButtons: React.FC<RoomButtonsProps> = ({ rooms, onRoomClick, searchTer
             <CardMedia
               component="img"
               height="160"
-              image="https://source.unsplash.com/featured/?room,study,library"
-              alt={`${room.name}`}
+              image={
+                room.image ||
+                'https://source.unsplash.com/featured/?room,study,library'
+              } // ✅ Use specific image or fallback
+              alt={`${room.name} thumbnail`}
               sx={{ borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
             />
             <CardContent sx={{ textAlign: 'center' }}>
-              <Typography variant="h6" sx={{ fontWeight: 600, color: '#2e026d' }}>
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: 600, color: '#2e026d' }}
+              >
                 {room.name}
               </Typography>
               <Typography variant="body2" sx={{ color: '#666' }}>
@@ -72,5 +90,3 @@ const RoomButtons: React.FC<RoomButtonsProps> = ({ rooms, onRoomClick, searchTer
 };
 
 export default RoomButtons;
-
-
