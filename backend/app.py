@@ -78,7 +78,7 @@ def daedalus_lounge():
         "name": room.name,
         "description": room.description,
         "current_occupancy": room.current_occupancy,
-        "total_occupancy": room.total_occupancy,
+        "capacity": room.total_occupancy,
         "computer_access": room.computer_access,
         "location": room.location,
         "permitted_volume": room.permitted_volume,
