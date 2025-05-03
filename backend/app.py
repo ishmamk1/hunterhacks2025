@@ -8,6 +8,10 @@ import base64
 import db
 from db import SessionLocal, Room 
 import time
+from flask_sock import Sock
+import asyncio
+import json
+from .chatBot import prompt_maker, ask_gemini
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -191,6 +195,52 @@ def east_library():
         room_data['image'] = f"data:image/jpeg;base64,{img_base64}"
     
     return jsonify(room_data)
+
+sock = Sock(app)
+
+@sock.route('/ask')
+async def ask(websocket):
+    print("The endpoint was hit!!!")
+    await websocket.accept()
+    print("After accepting in normal ask")
+
+    try:
+        while True:
+            data = await websocket.receive()
+            parsed_data = json.loads(data)
+            query = parsed_data.get("query", "")
+            role = parsed_data.get("role", "")
+            
+            session = SessionLocal()
+
+    
+            rooms = session.query(Room).all()
+            research = ""
+            for room in rooms:
+                research += json.dumps(room.__get__json__())
+            
+
+           
+
+            prompt = prompt_maker(
+                question=query,
+                context=research,
+                role="Please provide a detailed response using all the research in the 'CONTEXT' section and try to add on any information you may know that is not outdated or reliant on current events."
+            )
+
+            print("THIS IS MY PROMPT:\n", prompt)
+
+            async for message in ask_gemini(prompt):
+                if not message["done"]:
+                    print(message["response"])
+                    await websocket.send(json.dumps({"response": message["response"], "done": False}))
+                else:
+                    await websocket.send(json.dumps({"done": True}))
+                    await websocket.close()
+                    return
+    except Exception as e:
+        await websocket.send(json.dumps({"error": str(e), "done": True}))
+        await websocket.close()
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
