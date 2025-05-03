@@ -1,0 +1,12 @@
+backend/keys/studycam-firebase.json
+**/firebase-config.json
+.env
+
+# Firebase cache
+.firebase/
+*.log
+
+# Firebase local emulator data
+*-debug.log
+firebase-debug.log
+ui-debug.log
