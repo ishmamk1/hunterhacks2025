@@ -75,6 +75,23 @@ class Room(Base):
     picture = Column(String, nullable = True)
 
 
+    def __get__json__(self):
+        return( 
+            {
+                "name": self.name,
+                "description": self.description,
+                "current_occupancy": self.current_occupancy,
+                "capacity": self.total_occupancy,
+                "computer_access": self.computer_access,
+                "location": self.location,
+                "permitted_volume": self.permitted_volume,
+                "status": "Open"
+            })
+
+
+        
+
+
 
 
 
