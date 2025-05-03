@@ -40,13 +40,9 @@ def get_room_image(picture_url):
 def daedalus_lounge():
     session = SessionLocal()
 
-
     room = session.query(Room).filter(Room.name == "Daedalus Lounge").first()
     if not room: 
         return jasonify({"message": "There is no suche room"})
-
-
-
 
     if room.updating == False:
 
@@ -94,13 +90,52 @@ def daedalus_lounge():
 
 @app.route('/west_lobby', methods=['GET'])
 def west_lobby():
+    session = SessionLocal()
+
+    
+    room = session.query(Room).filter(Room.name == "West Lobby").first()
+    if not room: 
+        return jasonify({"message": "There is no suche room"})
+
+
+    if room.updating == False:
+
+        room.updating = True
+        session.commit()
+
+    time_counter = 0
+    while True:
+    
+        time.sleep(.5)
+        time_counter += 1
+
+        session.refresh(room)
+
+    
+        if room.updating == False or time_counter == 120: # if the database was updated or this ran for about 1 minute.
+            print("Room was updated in the DB!")
+            break
+
+    # room_data = {
+    #     "name": "Daedalus Lounge",
+    #     "capacity": 50,
+    #     "current_occupancy": 25,
+    #     "status": "Open"
+    # }
+
     room_data = {
-        "name": "West 3rd Floor Lobby",
-        "capacity": 75,
-        "current_occupancy": 40,
-        "status": "Busy"
+        "name": room.name,
+        "description": room.description,
+        "current_occupancy": room.current_occupancy,
+        "capacity": room.total_occupancy,
+        "computer_access": room.computer_access,
+        "location": room.location,
+        "permitted_volume": room.permitted_volume,
+        "status": "Open"
     }
-    img_base64 = get_room_image('west_lobby')
+    
+  
+    img_base64 = get_room_image(room.picture)
     if img_base64:
         room_data['image'] = f"data:image/jpeg;base64,{img_base64}"
     
@@ -108,13 +143,50 @@ def west_lobby():
 
 @app.route('/east_library', methods=['GET'])
 def east_library():
+    session = SessionLocal()
+
+    
+    room = session.query(Room).filter(Room.name ==  "East Library").first()
+    if not room: 
+        return jasonify({"message": "There is no suche room"})
+
+    if room.updating == False:
+
+        room.updating = True
+        session.commit()
+
+    time_counter = 0
+    while True:
+    
+        time.sleep(.5)
+        time_counter += 1
+
+        session.refresh(room)
+
+    
+        if room.updating == False or time_counter == 120: # if the database was updated or this ran for about 1 minute.
+            print("Room was updated in the DB!")
+            break
+
+    # room_data = {
+    #     "name": "Daedalus Lounge",
+    #     "capacity": 50,
+    #     "current_occupancy": 25,
+    #     "status": "Open"
+    # }
+
     room_data = {
-        "name": "East Library",
-        "capacity": 100,
-        "current_occupancy": 60,
-        "status": "Available"
+        "name": room.name,
+        "description": room.description,
+        "current_occupancy": room.current_occupancy,
+        "capacity": room.total_occupancy,
+        "computer_access": room.computer_access,
+        "location": room.location,
+        "permitted_volume": room.permitted_volume,
+        "status": "Open"
     }
-    img_base64 = get_room_image('east_library')
+    
+    img_base64 = get_room_image(room.picture)
     if img_base64:
         room_data['image'] = f"data:image/jpeg;base64,{img_base64}"
     
