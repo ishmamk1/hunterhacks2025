@@ -8,7 +8,7 @@ import './App.css';
 function App() {
   return (
     <>
-      {/* Apply global styles to prevent horizontal overscroll and match background */}
+      {/* Global resets and background */}
       <GlobalStyles
         styles={{
           'html, body, #root': {
@@ -21,6 +21,9 @@ function App() {
         }}
       />
 
+      {/* Navbar spans full width */}
+      <Navbar />
+
       <Box
         sx={{
           width: '100vw',
@@ -31,13 +34,8 @@ function App() {
         <Container
           maxWidth={false}
           disableGutters
-          sx={{
-            px: { xs: 2, md: 4 },
-            pt: 4,
-            pb: 4,
-          }}
+          sx={{ px: { xs: 2, md: 4 }, pt: 4, pb: 4 }}
         >
-          <Navbar />
           <Home />
           <BusyChart locationName="daedalus_lounge" />
         </Container>
