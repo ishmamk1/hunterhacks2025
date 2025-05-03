@@ -1,4 +1,8 @@
 import React, { useState, useMemo } from 'react';
+import daedalusImg from '../assets/dae.png';
+import eastLibraryImg from '../assets/east.png';
+import westLobbyImg from '../assets/west.png';
+
 import {
   Box,
   Button,
@@ -20,17 +24,26 @@ interface RoomData {
 }
 
 const ROOM_MAP = [
-    { id: 'daedalus_lounge', name: 'Daedalus Lounge', floor: '3rd Floor' },
-    { id: 'east_library', name: 'East Library', floor: '3rd Floor' },
-    { id: 'cafeteria', name: 'Cafeteria', floor: '3rd Floor' },
-    { id: '10th_floor_cs_lounge', name: 'CS Lounge', floor: '10th Floor' },
-    { id: 'west_lobby', name: 'West 3rd Floor Lobby', floor: '3rd Floor' },
-    { id: 'east_4th_lobby', name: 'East 4th Floor Lobby', floor: '4th Floor' },
-    { id: 'east_5th_lobby', name: 'East 5th Floor Lobby', floor: '4th Floor' },
-    { id: 'east_6th_library', name: 'East 6th Floor Library', floor: '6th Floor' },
-    { id: 'dolciani_center', name: 'Dolciani Center', floor: '7th Floor (East)' },
-  ];
-  
+  {
+    id: 'daedalus_lounge',
+    name: 'Daedalus Lounge',
+    floor: '3rd Floor',
+    image: daedalusImg,
+  },
+  {
+    id: 'east_library',
+    name: 'East Library',
+    floor: '2nd Floor',
+    image: eastLibraryImg,
+  },
+  {
+    id: 'west_lobby',
+    name: 'West 3rd Floor Lobby',
+    floor: '3rd Floor',
+    image: westLobbyImg,
+  },
+];
+
 
 const Home: React.FC = () => {
   const [roomData, setRoomData] = useState<RoomData | null>(null);
