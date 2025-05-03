@@ -8,6 +8,7 @@ import {
   CardContent,
   TextField,
 } from '@mui/material';
+import RoomButtons from './RoomButton';
 
 interface RoomData {
   name: string;
@@ -105,10 +106,7 @@ const Home: React.FC = () => {
               <Typography
                 variant="h4"
                 gutterBottom
-                sx={{
-                  color: '#5f259f',
-                  mb: 2,
-                }}
+                sx={{ color: '#5f259f', mb: 2 }}
               >
                 {roomData.name}
               </Typography>
@@ -166,47 +164,11 @@ const Home: React.FC = () => {
             </CardContent>
           </Card>
         ) : (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 3,
-              mt: 4,
-            }}
-          >
-            {filteredRooms.map((room) => (
-              <Button
-                key={room.id}
-                variant="contained"
-                size="large"
-                sx={{
-                  fontSize: '1.2rem',
-                  py: 2,
-                  background: 'linear-gradient(45deg, #9b5de5 20%, #ffffff 80%)',
-                  color: '#2e026d',
-                  boxShadow: '0 4px 12px rgba(155, 93, 229, 0.15)',
-                  borderRadius: 2,
-                  opacity: searchTerm ? 1 : 0.9,
-                  transform: searchTerm ? 'scale(1)' : 'scale(0.98)',
-                  transition: 'all 0.2s ease-in-out',
-                  textTransform: 'none',
-                  '&:hover': {
-                    background: 'linear-gradient(45deg, #8c40d6 20%, #f2edff 80%)',
-                    transform: 'scale(1.04)',
-                  },
-                }}
-                onClick={() => handleRoomClick(room.id)}
-              >
-                {room.name}
-                <Typography
-                  variant="caption"
-                  sx={{ ml: 1, color: '#666' }}
-                >
-                  {room.floor}
-                </Typography>
-              </Button>
-            ))}
-          </Box>
+          <RoomButtons
+            rooms={filteredRooms}
+            onRoomClick={handleRoomClick}
+            searchTerm={searchTerm}
+          />
         )}
       </Container>
     </Box>
