@@ -132,10 +132,10 @@ const ChatBot: React.FC = () => {
               className={msg.type === "user" ? "user-message" : "bot-message"}
             >
               {msg.text.split("\n").map((para, i) => (
-                <p key={i} style={{ margin: "0 0 0.5rem 0" }}>
-                  {renderFormattedMessage(para)}
-                </p>
-              ))}
+  <div key={i} style={{ margin: "0 0 0.5rem 0" }}>
+    {renderFormattedMessage(para)}
+  </div>
+))}
               {msg.links &&
                 msg.links.map((link, i) => (
                   <p key={`link-${i}`}>

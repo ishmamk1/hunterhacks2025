@@ -7,6 +7,7 @@ export default function Navbar() {
         {/* Left: About Us and Home */}
         <div className="navbar-left">
           <button className="about-us-button">About Us</button>
+          <a href="/chat" className="home-button">Chat</a>
           <a href="/" className="home-button">Home</a>
         </div>
 
