@@ -1,0 +1,184 @@
+/* Overall Chat container taking up full viewport */
+.Chat {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* ensures form is at the bottom */
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    margin: 0;
+    background-color: transparent;
+    color: #e0e0e0;
+    padding: 1rem;
+  }
+  
+  /* Chat title with gradient border accent (if needed) */
+  .Chat__title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    border: 2px solid transparent;
+    border-image: linear-gradient(90deg, rgb(16, 15, 33) 0%, rgb(255, 255, 255) 42%, rgb(80, 15, 121) 100%);
+  }
+  
+  /* Chatbox container with scrolling enabled */
+  .Chatbox {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;  /* takes available space */
+    width: 100%;
+    overflow-y: auto;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    /* background-color: #2a2a2a; */
+    border-radius: 8px;
+    border: 2px solid transparent;
+    
+  }
+  
+  /* Scrollbar styling */
+  .Chatbox::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .Chatbox::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 10px;
+    border: 2px solid #222;
+  }
+  .Chatbox::-webkit-scrollbar-track {
+    background-color: #222;
+    border-radius: 10px;
+  }
+  
+  /* Message styling for both user and bot messages */
+  .user-message,
+  .bot-message {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-bottom: 0.5rem;
+    padding: 0.8rem;
+    border-radius: 10px;
+    max-width: 60%;
+  }
+  
+  /* User's Message Styling */
+  .user-message {
+    color:antiquewhite;
+    font-weight: 500;
+    background-color: #333;
+    align-self: flex-end;
+    text-align: right;
+  }
+  
+  /* Bot's Response Styling */
+  .bot-message {
+    color: #65f0b6;
+    line-height: 1.5;
+    font-weight: 400;
+    background-color: #444;
+    align-self: flex-start;
+    text-align: left;
+  }
+  
+  /* Chat form container fixed at the bottom of the chat */
+  .Chat__form {
+    box-sizing: border-box;
+    display: flex;
+    height: max-content;
+    max-height: 40%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%; 
+    bottom: 4px; /* Adjust to make sure the form is at the bottom */
+    left: 4px;
+    padding: 2px;
+    background-color: transparent;
+    border: 1px solid #1b7f7d;
+    border-radius: 0.4em;
+    background-color: #1e1e1e;
+    /* border: 1px solid #535bf2; */
+    border-radius: -2px;/* Rounded corners for the whole form*/
+    z-index: 1;
+    
+  }
+  
+  /* Input area styling */
+  .Chat__input {
+    color: antiquewhite;
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #1e1e1e;
+    box-sizing: border-box;
+    resize: none;
+    overflow-y: auto;
+    margin-bottom: 0.5rem;
+    outline: none;
+  }
+  
+  /* Submit button styling */
+  
+  
+  
+  /* Disabled button styling */
+  .Chat__button:disabled {
+    background-color: #555 !important;
+    color: #aaa !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  .Chat__button__submit {
+    font-size: 1.2em;
+    padding: 0.2em 0.6em;
+    border-radius: 0.2em;
+   
+    border: none;
+    background-color: #000;
+    color:antiquewhite;
+    cursor: pointer;
+    box-shadow: 2px 2px 3px #000000b4;
+    
+  }
+  .Chat__button:disabled:hover {
+    border: none;
+  }
+  
+  .Chat__button__submit_container {
+    z-index: 99999999999999;
+    align-self: flex-end;
+    position: relative;
+    padding: 2px;
+    background: linear-gradient(90deg,#1b7f7d,#35a576);
+    border-radius: 0.2em;
+    transition: all 0.4s ease;
+    margin-bottom: .5rem;
+    margin-right: .5rem;
+  }
+  
+  .Chat__button__submit_container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    border-radius: 0.9em;
+    z-index: -10;
+    filter: blur(0);
+    transition: filter 0.4s ease;
+  }
+  
+  .Chat__button__submit_container:hover::before {
+    background: linear-gradient(90deg,#1b7f7d,#35a576);
+    filter: blur(.5em);
+  }
+  .Chat__button__submit_container:active::before {
+    filter: blur(0.5em);
+  }
+  
