@@ -73,7 +73,7 @@ const ROOM_MAP = [
   },
   {
     id: 'east_4th_lobby',
-    name: 'East 4th Floor Lobby',
+    name: 'East 4th Floor Library',
     floor: '4th Floor',
     image: east4thLobbyImg,
     filters: ['Group Work', 'Whiteboard', 'Speaking Allowed'],
