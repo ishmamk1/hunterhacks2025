@@ -58,7 +58,7 @@ class Room(Base):
     
     id = Column(Integer, primary_key=True)
     name = Column(String , nullable=False )
-    updated = Column(Boolean, default=True)
+    updating = Column(Boolean, default=False)
     description = Column(String, nullable=False)
     location = Column(String, nullable=False)
    
