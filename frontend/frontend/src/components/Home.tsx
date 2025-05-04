@@ -180,6 +180,7 @@ const Home: React.FC = () => {
         data.capacity = 250;
         data.location = "Hunter West building 3rd floor";
         data.permitted_volue = "There is not limit on permitted audio."
+        data.description = "Cafeteria for Hunter students."
       }
 
       // "name": room.name,
