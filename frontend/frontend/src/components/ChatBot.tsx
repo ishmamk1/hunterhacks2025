@@ -26,18 +26,21 @@ interface Message {
   links?: Link[];
 }
 
+// Added textAlign to control message text alignment
 const ALL_CHAT_STYLES = {
   user: {
     background: '#f0e6ff',
     color: primaryColor,
     alignSelf: 'flex-end',
     borderRadius: '16px 16px 0 16px',
+    textAlign: 'right' as const,
   },
   bot: {
     background: '#ffffff',
     color: '#333',
     alignSelf: 'flex-start',
     borderRadius: '16px 16px 16px 0',
+    textAlign: 'left' as const,
   },
 };
 
@@ -108,7 +111,7 @@ const ChatBot: React.FC = () => {
 
   const renderFormatted = (text: string) =>
     text.split('\n').map((line, i) => (
-      <Typography key={i} sx={{ mb: 0.5 }}>
+      <Typography key={i} sx={{ mb: 0.5, whiteSpace: 'pre-wrap' }}>
         {line.split(/(\*\*.*?\*\*)/g).map((part, j) =>
           /^\*\*/.test(part)
             ? <strong key={j}>{part.replace(/\*\*/g, '')}</strong>
@@ -118,7 +121,7 @@ const ChatBot: React.FC = () => {
     ));
 
   return (
-    <Box sx={{ width: '100%', maxWidth: 600, mx: 'auto', mt: 4 }}>
+    <Box sx={{ width: '100%', maxWidth: 600, mx: 'auto', mt: 10,  }}>
       <Paper
         elevation={3}
         sx={{
@@ -126,7 +129,7 @@ const ChatBot: React.FC = () => {
           bgcolor: '#f5f2ff',
           borderRadius: 3,
           mb: 2,
-          height: 400,
+          height: '60vh',      // Responsive height
           overflowY: 'auto',
           display: 'flex',
           flexDirection: 'column',
@@ -134,11 +137,26 @@ const ChatBot: React.FC = () => {
         }}
       >
         {messages.map((msg, idx) => (
-          <Box key={idx} sx={{ display: 'flex', flexDirection: 'column', alignItems: msg.type === 'user' ? 'flex-end' : 'flex-start' }}>
+          <Box
+            key={idx}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: msg.type === 'user' ? 'flex-end' : 'flex-start',
+            }}
+          >
             <Box sx={{ ...ALL_CHAT_STYLES[msg.type], p: 1.5, maxWidth: '80%' }}>
               {renderFormatted(msg.text)}
               {msg.links?.map((link, i) => (
-                <Typography variant="caption" key={i} sx={{ display: 'block', mt: 0.5 }}>
+                <Typography
+                  variant="caption"
+                  key={i}
+                  sx={{
+                    display: 'block',
+                    mt: 0.5,
+                    textAlign: ALL_CHAT_STYLES.bot.textAlign,
+                  }}
+                >
                   <a
                     href={link.url}
                     target="_blank"
