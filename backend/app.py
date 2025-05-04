@@ -257,10 +257,12 @@ def ask(ws):
 
             session = SessionLocal()
             rooms = session.query(Room).all()
-
+            events = session.query(Event).all()
             research = ""
             for room in rooms:
                 research += json.dumps(room.__get__json__())
+            for event in events:
+                research += json.dumps(event.__get__json__())
 
             prompt = prompt_maker(
                 question=query,
