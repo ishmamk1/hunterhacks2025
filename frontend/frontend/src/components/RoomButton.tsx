@@ -8,11 +8,13 @@ import {
   Chip,
 } from '@mui/material';
 
+const primaryColor = '#983ca4';
+
 interface Room {
   id: string;
   name: string;
   floor: string;
-  image?: string; // ✅ Add image to Room interface
+  image?: string;
 }
 
 interface RoomButtonsProps {
@@ -26,7 +28,7 @@ const RoomButtons: React.FC<RoomButtonsProps> = ({
   onRoomClick,
   searchTerm,
 }) => {
-  const getRandomStatus = () => ('Open');
+  const getRandomStatus = () => 'Open';
 
   return (
     <Box
@@ -62,14 +64,14 @@ const RoomButtons: React.FC<RoomButtonsProps> = ({
               image={
                 room.image ||
                 'https://source.unsplash.com/featured/?room,study,library'
-              } // ✅ Use specific image or fallback
+              }
               alt={`${room.name} thumbnail`}
               sx={{ borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
             />
             <CardContent sx={{ textAlign: 'center' }}>
               <Typography
                 variant="h6"
-                sx={{ fontWeight: 600, color: '#2e026d' }}
+                sx={{ fontWeight: 600, color: primaryColor }}
               >
                 {room.name}
               </Typography>

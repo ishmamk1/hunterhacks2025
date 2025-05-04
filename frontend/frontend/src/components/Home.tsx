@@ -14,11 +14,8 @@ import './Home.css';
 
 import {
   Box,
-  Button,
   Container,
   Typography,
-  Card,
-  CardContent,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -147,7 +144,7 @@ const ROOM_MAP = [
     floor: '3rd Floor (Thomas Hunter)',
     image: studentUnionImg,
     filters: ['Group Work', 'Speaking Allowed', 'Eating Allowed'],
-  }
+  },
 ];
 
 const Home: React.FC = () => {
