@@ -11,6 +11,8 @@ import {
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
+const primaryColor = '#983ca4';
+
 interface Link {
   url: string;
   text: string;
@@ -27,7 +29,7 @@ interface Message {
 const ALL_CHAT_STYLES = {
   user: {
     background: '#f0e6ff',
-    color: '#2e026d',
+    color: primaryColor,
     alignSelf: 'flex-end',
     borderRadius: '16px 16px 0 16px',
   },
@@ -44,7 +46,6 @@ const ChatBot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setQuery(e.target.value);
@@ -138,7 +139,12 @@ const ChatBot: React.FC = () => {
               {renderFormatted(msg.text)}
               {msg.links?.map((link, i) => (
                 <Typography variant="caption" key={i} sx={{ display: 'block', mt: 0.5 }}>
-                  <a href={link.url} target="_blank" rel="noopener noreferrer" style={{ color: '#5f259f', textDecoration: 'none' }}>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: primaryColor, textDecoration: 'none' }}
+                  >
                     {link.text}
                   </a>
                 </Typography>
@@ -148,11 +154,13 @@ const ChatBot: React.FC = () => {
         ))}
         {loading && (
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
-            <CircularProgress size={20} sx={{ color: '#9b5de5' }} />
+            <CircularProgress size={20} sx={{ color: primaryColor }} />
           </Box>
         )}
       </Paper>
+
       <Divider />
+
       <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', mt: 1 }}>
         <TextField
           inputRef={inputRef}
@@ -165,32 +173,72 @@ const ChatBot: React.FC = () => {
           fullWidth
           variant="outlined"
           size="small"
-          sx={{ mr: 1, '& .MuiOutlinedInput-root': { borderRadius: 2, bgcolor: '#ffffff' } }}
+          sx={{
+            mr: 1,
+            '& .MuiOutlinedInput-root': {
+              borderRadius: 2,
+              bgcolor: '#ffffff',
+            },
+          }}
         />
-        <IconButton type="submit" color="primary" sx={{ bgcolor: '#9b5de5', '&:hover': { bgcolor: '#8c40d6' }, color: '#fff' }}>
+        <IconButton
+          type="submit"
+          color="primary"
+          sx={{
+            bgcolor: primaryColor,
+            '&:hover': { bgcolor: '#7a297f' },
+            color: '#fff',
+          }}
+        >
           <SendIcon />
         </IconButton>
       </Box>
-      {/* Display a few preset messages about Hunter College */}
+
       <Box sx={{ mt: 3, bgcolor: '#f3f3f3', p: 2, borderRadius: 2 }}>
-        <Typography variant="h6" sx={{ color: '#2e026d', mb: 1 }}>
+        <Typography variant="h6" sx={{ color: primaryColor, mb: 1 }}>
           Hunter College Resources
         </Typography>
         <Typography variant="body2" sx={{ mb: 1 }}>
           Looking for library resources? Here are some helpful links:
         </Typography>
         <Box>
-          <Link href="https://library.hunter.cuny.edu/" target="_blank" sx={{ display: 'block', color: '#9b5de5', textDecoration: 'none', mb: 0.5 }}>
+          <Link
+            href="https://library.hunter.cuny.edu/"
+            target="_blank"
+            sx={{
+              display: 'block',
+              color: primaryColor,
+              textDecoration: 'none',
+              mb: 0.5,
+            }}
+          >
             Hunter College Library
           </Link>
-          <Link href="https://library.hunter.cuny.edu/remote-access/" target="_blank" sx={{ display: 'block', color: '#9b5de5', textDecoration: 'none' }}>
+          <Link
+            href="https://library.hunter.cuny.edu/remote-access/"
+            target="_blank"
+            sx={{
+              display: 'block',
+              color: primaryColor,
+              textDecoration: 'none',
+            }}
+          >
             Remote Access to Library Services
           </Link>
         </Box>
         <Typography variant="body2" sx={{ mt: 2 }}>
           Want to learn more about campus events? Check out the latest:
         </Typography>
-        <Link href="https://www.hunter.cuny.edu/news" target="_blank" sx={{ display: 'block', color: '#9b5de5', textDecoration: 'none', mt: 0.5 }}>
+        <Link
+          href="https://www.hunter.cuny.edu/news"
+          target="_blank"
+          sx={{
+            display: 'block',
+            color: primaryColor,
+            textDecoration: 'none',
+            mt: 0.5,
+          }}
+        >
           Hunter College News and Events
         </Link>
       </Box>

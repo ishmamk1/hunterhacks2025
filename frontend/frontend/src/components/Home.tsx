@@ -13,17 +13,16 @@ import './Home.css';
 
 import {
   Box,
-  Button,
   Container,
   Typography,
-  Card,
-  CardContent,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
 } from '@mui/material';
 import RoomButtons from './RoomButton';
 import RoomInfoCard from './RoomInfoCard';
+
+const primaryColor = '#983ca4';
 
 interface RoomData {
   name: string;
@@ -99,7 +98,7 @@ const ROOM_MAP = [
     floor: '3rd Floor (Thomas Hunter)',
     image: studentUnionImg,
     filters: ['Group Work', 'Speaking Allowed', 'Eating Allowed'],
-  }
+  },
 ];
 
 const Home: React.FC = () => {
@@ -161,7 +160,7 @@ const Home: React.FC = () => {
           gutterBottom
           sx={{
             fontWeight: 700,
-            color: '#2e026d',
+            color: primaryColor,
             mb: 4,
           }}
         >
@@ -180,10 +179,10 @@ const Home: React.FC = () => {
                 mb: 3,
                 backgroundColor: '#f8f5ff',
                 borderRadius: 2,
-                input: { color: '#2e026d' },
-                fieldset: { borderColor: '#9b5de5' },
-                '&:hover fieldset': { borderColor: '#9b5de5' },
-                '&.Mui-focused fieldset': { borderColor: '#5f259f' },
+                input: { color: primaryColor },
+                fieldset: { borderColor: primaryColor },
+                '&:hover fieldset': { borderColor: primaryColor },
+                '&.Mui-focused fieldset': { borderColor: primaryColor },
               }}
               autoComplete="off"
             />
@@ -207,11 +206,11 @@ const Home: React.FC = () => {
                   sx={{
                     borderRadius: 3,
                     textTransform: 'none',
-                    borderColor: '#9b5de5',
-                    color: '#5f259f',
+                    borderColor: primaryColor,
+                    color: primaryColor,
                     '&.Mui-selected': {
-                      backgroundColor: '#e0d4fa',
-                      color: '#5f259f',
+                      backgroundColor: '#f2e0f5',
+                      color: primaryColor,
                     },
                   }}
                 >

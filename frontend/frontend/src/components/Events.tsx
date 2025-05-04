@@ -17,6 +17,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import logo from '../assets/logo-01.png';
 
+const primaryColor = '#983ca4';
+
 interface Event {
   url: string;
   title: string;
@@ -67,7 +69,7 @@ const EventsPage: React.FC = () => {
             component="h1"
             sx={{
               fontWeight: 700,
-              background: 'linear-gradient(45deg, #6A1B9A, #AB47BC)',
+              background: `linear-gradient(45deg, ${primaryColor}, ${primaryColor})`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               textAlign: 'center',
@@ -87,20 +89,20 @@ const EventsPage: React.FC = () => {
             sx={{
               maxWidth: 600,
               '& .MuiOutlinedInput-root': {
-                backgroundColor: '#f3e5f5',
+                backgroundColor: '#f8f5ff',
                 borderRadius: 2,
                 '& fieldset': {
-                  borderColor: '#ce93d8',
+                  borderColor: primaryColor,
                 },
                 '&:hover fieldset': {
-                  borderColor: '#ab47bc',
+                  borderColor: primaryColor,
                 },
               },
             }}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon color="action" />
+                  <SearchIcon sx={{ color: primaryColor }} />
                 </InputAdornment>
               ),
             }}
@@ -108,7 +110,7 @@ const EventsPage: React.FC = () => {
         </Box>
 
         {loading ? (
-          <CircularProgress sx={{ display: 'block', mx: 'auto' }} />
+          <CircularProgress sx={{ display: 'block', mx: 'auto', color: primaryColor }} />
         ) : (
           <Grid container spacing={3} justifyContent="center">
             {filteredEvents.map((event) => (
@@ -141,17 +143,17 @@ const EventsPage: React.FC = () => {
                   </Box>
 
                   <CardContent sx={{ p: 3 }}>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#6A1B9A', mb: 1 }}>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', color: primaryColor, mb: 1 }}>
                       {event.title}
                     </Typography>
 
                     <Box sx={{ display: 'flex', gap: 2, mb: 2, color: '#757575', fontSize: '0.9rem' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <CalendarTodayIcon sx={{ fontSize: '1rem' }} />
+                        <CalendarTodayIcon sx={{ fontSize: '1rem', color: primaryColor }} />
                         <Typography variant="body2">{event.date}</Typography>
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <LocationOnIcon sx={{ fontSize: '1rem' }} />
+                        <LocationOnIcon sx={{ fontSize: '1rem', color: primaryColor }} />
                         <Typography variant="body2">{event.location}</Typography>
                       </Box>
                     </Box>
@@ -176,14 +178,14 @@ const EventsPage: React.FC = () => {
                       href={event.url}
                       target="_blank"
                       sx={{
-                        background: 'linear-gradient(45deg, #6A1B9A, #AB47BC)',
+                        background: `linear-gradient(45deg, ${primaryColor}, ${primaryColor})`,
                         color: '#fff',
                         py: 1,
                         borderRadius: 2,
                         textTransform: 'none',
                         fontWeight: 'bold',
                         '&:hover': {
-                          background: 'linear-gradient(45deg, #4A0072, #9C27B0)',
+                          background: `linear-gradient(45deg, ${primaryColor}, #7a297f)`,
                         },
                       }}
                     >
@@ -201,6 +203,3 @@ const EventsPage: React.FC = () => {
 };
 
 export default EventsPage;
-
-
-
