@@ -44,7 +44,7 @@ const ChatBot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const Backend = import.meta.env.VITE_BACKEND as string;
+  
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setQuery(e.target.value);
@@ -61,7 +61,7 @@ const ChatBot: React.FC = () => {
     setMessages(prev => [...prev, { type: 'user', text: query }]);
     setLoading(true);
 
-    const socket = new WebSocket(`${Backend}/ask`);
+    const socket = new WebSocket("ws://127.0.0.1:5001/ask");
     let response = '';
 
     socket.onopen = () => {

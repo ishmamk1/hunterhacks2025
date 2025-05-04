@@ -12,8 +12,6 @@ from sqlalchemy.ext.declarative import declarative_base
 import datetime
 
 
-
-
 load_dotenv()
 print("DATABASE_URL =", os.getenv("DATABASE_URL"))
 
@@ -36,15 +34,6 @@ engine = create_engine(
 
 # Create a sessionmaker
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
-
-
-
-
-
-
-
 
 
 
@@ -90,21 +79,6 @@ class Room(Base):
 
 
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Base.metadata.create_all(engine)
    

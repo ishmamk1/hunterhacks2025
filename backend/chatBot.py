@@ -24,17 +24,16 @@ def prompt_maker(question: str, context: str = "", role: str = None):
     }
 
 
-async def ask_gemini(prompt: dict):
-    
+def ask_gemini(prompt: dict):
     response = gemini_client.models.generate_content_stream(
         model="gemini-2.0-flash-lite",
-        config= types.GenerateContentConfig(
-        system_instruction=prompt["system_instruction"]),
+        config=types.GenerateContentConfig(
+            system_instruction=prompt["system_instruction"]
+        ),
         contents=[prompt["content"]]
     )
 
-    for chunk in response:  # This is still synchronous
-        yield {"response": chunk.text, "done": False}  # Yield immediately
-        await asyncio.sleep(0)  # Let event loop process other tasks
+    for chunk in response:
+        yield {"response": chunk.text, "done": False}
 
     yield {"done": True}

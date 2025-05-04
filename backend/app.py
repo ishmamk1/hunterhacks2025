@@ -46,7 +46,7 @@ def daedalus_lounge():
 
     room = session.query(Room).filter(Room.name == "Daedalus Lounge").first()
     if not room: 
-        return jasonify({"message": "There is no suche room"})
+        return jsonify({"message": "There is no suche room"})
 
     if room.updating == False:
 
@@ -99,7 +99,7 @@ def west_lobby():
     
     room = session.query(Room).filter(Room.name == "West Lobby").first()
     if not room: 
-        return jasonify({"message": "There is no suche room"})
+        return jsonify({"message": "There is no suche room"})
 
 
     if room.updating == False:
@@ -150,9 +150,10 @@ def east_library():
     session = SessionLocal()
 
     
-    room = session.query(Room).filter(Room.name ==  "East Library").first()
+    room = session.query(Room).filter(Room.name == "East Library").first()
     if not room: 
-        return jasonify({"message": "There is no suche room"})
+        print("No such room", room)
+        return jsonify({"message": "There is no such room"})
 
     if room.updating == False:
 
@@ -197,30 +198,23 @@ def east_library():
     return jsonify(room_data)
 
 sock = Sock(app)
-
 @sock.route('/ask')
-async def ask(websocket):
-    print("The endpoint was hit!!!")
-    await websocket.accept()
-    print("After accepting in normal ask")
+def ask(ws):
+    print("WebSocket connection received.")
 
     try:
         while True:
-            data = await websocket.receive()
+            data = ws.receive()
             parsed_data = json.loads(data)
             query = parsed_data.get("query", "")
             role = parsed_data.get("role", "")
-            
-            session = SessionLocal()
 
-    
+            session = SessionLocal()
             rooms = session.query(Room).all()
+
             research = ""
             for room in rooms:
                 research += json.dumps(room.__get__json__())
-            
-
-           
 
             prompt = prompt_maker(
                 question=query,
@@ -230,17 +224,18 @@ async def ask(websocket):
 
             print("THIS IS MY PROMPT:\n", prompt)
 
-            async for message in ask_gemini(prompt):
+            for message in ask_gemini(prompt):
                 if not message["done"]:
-                    print(message["response"])
-                    await websocket.send(json.dumps({"response": message["response"], "done": False}))
+                    ws.send(json.dumps({"response": message["response"], "done": False}))
                 else:
-                    await websocket.send(json.dumps({"done": True}))
-                    await websocket.close()
+                    ws.send(json.dumps({"done": True}))
+                    ws.close()
                     return
+
     except Exception as e:
-        await websocket.send(json.dumps({"error": str(e), "done": True}))
-        await websocket.close()
+        print("WebSocket error:", e)
+        ws.send(json.dumps({"error": str(e), "done": True}))
+        ws.close()
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
