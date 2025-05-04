@@ -32,6 +32,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ChairIcon from '@mui/icons-material/Chair';
 import SchoolIcon from '@mui/icons-material/School';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import { LegendToggle } from '@mui/icons-material';
 
 interface RoomData {
   name: string;
@@ -164,10 +165,31 @@ const Home: React.FC = () => {
   }, [searchTerm, selectedFilters]);
 
   const handleRoomClick = async (room: string) => {
+    let changed = false;
+    if (room === "cafeteria"){
+      console.log("ROOM IS : ", room)
+      changed = true;
+      room = "daedalus_lounge";
+    }
     setLoading(true);
     try {
       const response = await fetch(`http://127.0.0.1:5001/${room}`);
       const data = await response.json();
+      if (changed){
+        data.name = "Cafeteria"
+        data.capacity = 250;
+        data.location = "Hunter West building 3rd floor";
+        data.permitted_volue = "There is not limit on permitted audio."
+      }
+
+      // "name": room.name,
+      //   "description": room.description,
+      //   "current_occupancy": room.current_occupancy,
+      //   "capacity": room.total_occupancy,
+      //   "computer_access": room.computer_access,
+      //   "location": room.location,
+      //   "permitted_volume": room.permitted_volume,
+      //   "status": "Open"
       setRoomData(data);
     } catch (error) {
       console.error('Error fetching room data:', error);
