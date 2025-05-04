@@ -8,186 +8,200 @@ import {
   Divider,
   Chip,
   Stack,
+  LinearProgress,
+  useTheme,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import ComputerIcon from '@mui/icons-material/Computer';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import InfoIcon from '@mui/icons-material/Info';
-import BusyChart from './Busy'; // Adjust path as needed
-
-interface RoomData {
-  name: string;
-  description?: string;
-  capacity?: number;
-  current_occupancy?: number;
-  status?: string;
-  image?: string;
-  computer_access?: boolean;
-  location?: string;
-  permitted_volume?: string;
-  filters?: string[];
-}
+import GroupIcon from '@mui/icons-material/Group';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+import WifiIcon from '@mui/icons-material/Wifi';
+import PowerIcon from '@mui/icons-material/Power';
+import ChairIcon from '@mui/icons-material/Chair';
+import BusyChart from './Busy';
 
 interface RoomInfoCardProps {
-  roomData: RoomData;
+  roomData: {
+    name: string;
+    location?: string;
+    description?: string;
+    image?: string;
+    filters?: string[];
+    permitted_volume?: string;
+    current_occupancy?: number;
+    capacity?: number;
+  };
   onBack: () => void;
 }
 
-const getHardcodedOccupancy = (roomName: string) => {
-  switch (roomName) {
-    case 'Daedalus Lounge':
-      return Math.floor(Math.random() * 11); // Random between 0-10
-    case 'East Library':
-      return Math.floor(Math.random() * 41); // Random between 0-40
-    case 'West Lobby':
-      return Math.floor(Math.random() * 71) + 70; // Random between 70-140
-    default:
-      return 0; // Default if no match
+const FeatureIcon = ({ type }: { type: string }) => {
+  const theme = useTheme();
+  const iconStyle = { fontSize: 24, color: theme.palette.primary.main };
+  switch (type.toLowerCase()) {
+    case 'eating allowed': return <RestaurantIcon sx={iconStyle} />;
+    case 'speaking allowed': return <VolumeUpIcon sx={iconStyle} />;
+    case 'whiteboard': return <ChairIcon sx={iconStyle} />;
+    case 'group work': return <GroupIcon sx={iconStyle} />;
+    case 'wifi': return <WifiIcon sx={iconStyle} />;
+    case 'outlets': return <PowerIcon sx={iconStyle} />;
+    default: return <InfoIcon sx={iconStyle} />;
   }
 };
 
 const RoomInfoCard: React.FC<RoomInfoCardProps> = ({ roomData, onBack }) => {
-  const hardcodedOccupancy = getHardcodedOccupancy(roomData.name);
+  const theme = useTheme();
+  const capacity = roomData.capacity || 30;
+  const occupied = roomData.current_occupancy ?? 18;
+  const occupancyPercent = Math.min(100, Math.round((occupied / capacity) * 100));
 
   return (
     <Card
       sx={{
         mt: 4,
-        p: 3,
-        backgroundColor: '#ffffff',
-        borderRadius: 3,
-        boxShadow: '0 4px 20px rgba(155, 93, 229, 0.1)',
+        backgroundColor: '#1a1a1a',
+        borderRadius: 4,
+        boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+        maxWidth: '1400px',
+        margin: '0 auto',
+        color: '#fff',
       }}
     >
-      <CardContent>
+      <CardContent sx={{ p: { xs: 2, md: 4 } }}>
+        {/* Photo Section */}
+        {roomData.image && (
+          <Box
+            sx={{
+              width: '100%',
+              height: '300px',
+              borderRadius: '16px',
+              overflow: 'hidden',
+              mb: 4,
+            }}
+          >
+            <Box
+              component="img"
+              src={roomData.image}
+              alt={roomData.name}
+              sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </Box>
+        )}
+
+        {/* Title & Chips */}
         <Typography
-          variant="h4"
-          gutterBottom
-          sx={{ color: '#5f259f', mb: 2, fontWeight: 'bold' }}
+          variant="h3"
+          sx={{ color: theme.palette.primary.main, fontWeight: 'bold', mb: 2 }}
         >
           {roomData.name}
         </Typography>
-
-        {roomData.image && (
-          <Box sx={{ my: 2 }}>
-            <img
-              src={roomData.image}
-              alt={`${roomData.name} view`}
-              style={{
-                maxWidth: '100%',
-                height: 'auto',
-                borderRadius: '12px',
-                marginBottom: '1rem',
-                boxShadow: '0 4px 12px rgba(155, 93, 229, 0.15)',
-              }}
-              onError={(e) => {
-                console.error('Error loading image');
-                (e.target as HTMLImageElement).style.display = 'none';
-              }}
-            />
-          </Box>
-        )}
-
-        {roomData.description && (
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="body1" sx={{ color: '#333', display: 'flex', alignItems: 'center' }}>
-              <InfoIcon sx={{ mr: 1 }} /> {roomData.description}
-            </Typography>
-          </Box>
-        )}
-
-        <Box sx={{ mb: 2 }}>
-          {roomData.capacity != null && (
-            <Typography variant="body1" sx={{ color: '#333', mb: 0.5 }}>
-              <strong>Capacity:</strong> {roomData.capacity}
-            </Typography>
-          )}
-
-          <Typography variant="body1" sx={{ color: '#333', mb: 0.5 }}>
-            <strong>Current Occupancy:</strong> {hardcodedOccupancy}
-          </Typography>
-
-          {roomData.status && (
-            <Chip
-              label={roomData.status}
-              color="success"
-              sx={{
-                mt: 1,
-                backgroundColor: '#d1ffe0',
-                color: '#2e7d32',
-                fontWeight: 'bold',
-              }}
-            />
-          )}
-        </Box>
-
-        <Divider sx={{ my: 2 }} />
-
-        <Stack spacing={1} sx={{ mb: 2 }}>
-          {roomData.computer_access !== undefined && (
-            <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', color: '#444' }}>
-              <ComputerIcon sx={{ mr: 1 }} />
-              {roomData.computer_access ? 'Computer Access Available' : 'No Computer Access'}
-            </Typography>
-          )}
-
+        <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
           {roomData.location && (
-            <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', color: '#444' }}>
-              <LocationOnIcon sx={{ mr: 1 }} />
-              {roomData.location}
-            </Typography>
+            <Chip
+              icon={<LocationOnIcon />}
+              label={roomData.location}
+              sx={{ bgcolor: 'rgba(255,255,255,0.1)', color: '#fff' }}
+            />
           )}
-
+          <Chip
+            icon={<GroupIcon />}
+            label={`${occupied}/${capacity} occupied`}
+            sx={{ bgcolor: 'rgba(255,255,255,0.1)', color: '#fff' }}
+          />
           {roomData.permitted_volume && (
-            <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', color: '#444' }}>
-              <VolumeUpIcon sx={{ mr: 1 }} />
-              Volume Level: {roomData.permitted_volume}
-            </Typography>
+            <Chip
+              icon={<VolumeUpIcon />}
+              label={roomData.permitted_volume}
+              sx={{ bgcolor: 'rgba(255,255,255,0.1)', color: '#fff' }}
+            />
           )}
         </Stack>
+        <Divider sx={{ borderColor: 'rgba(255,255,255,0.2)', mb: 4 }} />
 
-        {roomData.filters && roomData.filters.length > 0 && (
-          <>
-            <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 600 }}>
-              Features:
+        {/* Main Grid */}
+        <Box sx={{ display: 'grid', gridTemplateColumns: { md: '2fr 1fr' }, gap: 4 }}>
+          {/* Left Panel */}
+          <Box>
+            {roomData.description && (
+              <Typography variant="body1" sx={{ mb: 4, color: '#ccc' }}>
+                {roomData.description}
+              </Typography>
+            )}
+            <Typography variant="h6" sx={{ mb: 2, color: '#fff' }}>
+              Available Features
             </Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-              {roomData.filters.map((filter, index) => (
-                <Chip
-                  key={index}
-                  label={filter}
-                  variant="outlined"
-                  sx={{
-                    borderColor: '#9b5de5',
-                    color: '#5f259f',
-                    fontWeight: '500',
-                    backgroundColor: '#f3e8ff',
-                  }}
-                />
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 4 }}>
+              {roomData.filters?.map((filter, i) => (
+                <Tooltip title={filter} key={i}>
+                  <span>
+                    <FeatureIcon type={filter} />
+                  </span>
+                </Tooltip>
               ))}
             </Box>
-          </>
-        )}
+            <Box sx={{ mb: 4 }}>
+              <Typography variant="h6" sx={{ mb: 2, color: '#fff' }}>
+                Current Occupancy
+              </Typography>
+              <LinearProgress
+                variant="determinate"
+                value={occupancyPercent}
+                sx={{
+                  height: 12,
+                  borderRadius: 6,
+                  bgcolor: 'rgba(255,255,255,0.1)',
+                  '& .MuiLinearProgress-bar': {
+                    bgcolor:
+                      occupancyPercent > 80
+                        ? '#ff4444'
+                        : occupancyPercent > 50
+                        ? '#ffbb33'
+                        : '#00C851',
+                  },
+                }}
+              />
+              <Typography
+                variant="caption"
+                sx={{ mt: 1, display: 'block', color: '#ccc' }}
+              >
+                {occupancyPercent}% occupied
+              </Typography>
+            </Box>
+          </Box>
 
-        <Divider sx={{ my: 3 }} />
-
-        <Box sx={{ mb: 3 }}>
-          <BusyChart locationName={roomData.name} />
+          {/* Right Panel */}
+          <Box>
+            <Typography variant="h6" sx={{ mb: 2, color: '#fff' }}>
+              Popular Times
+            </Typography>
+            <Box sx={{ bgcolor: 'rgba(255,255,255,0.05)', p: 2, borderRadius: 2 }}>
+              <BusyChart locationName={roomData.name} />
+            </Box>
+          </Box>
         </Box>
 
+        {/* Back */}
         <Button
           variant="contained"
           onClick={onBack}
           sx={{
-            mt: 2,
-            background: 'linear-gradient(45deg, #9b5de5 20%, #ffffff 80%)',
-            color: '#2e026d',
-            boxShadow: '0 4px 10px rgba(155, 93, 229, 0.2)',
-            borderRadius: 2,
+            mt: 4,
+            bgcolor: theme.palette.primary.main,
+            color: '#fff',
+            py: 1.5,
+            px: 4,
+            borderRadius: 3,
             textTransform: 'none',
+            fontSize: '1.1rem',
             '&:hover': {
-              background: 'linear-gradient(45deg, #8c40d6 20%, #f2edff 80%)',
+              bgcolor: theme.palette.primary.dark,
+              transform: 'translateY(-2px)',
+              boxShadow: '0 6px 12px rgba(0,0,0,0.2)',
             },
+            transition: 'all 0.2s ease-in-out',
           }}
         >
           Back to Rooms
@@ -198,6 +212,9 @@ const RoomInfoCard: React.FC<RoomInfoCardProps> = ({ roomData, onBack }) => {
 };
 
 export default RoomInfoCard;
+
+
+
 
 
 
