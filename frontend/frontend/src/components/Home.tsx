@@ -188,12 +188,25 @@ const Home: React.FC = () => {
 
   return (
     <Box
-      sx={{
-        background: 'linear-gradient(135deg, #ffffff 0%, #f5f0ff 50%, #e8e0ff 100%)',
-        minHeight: '100vh',
-        py: 8,
-      }}
-    >
+    sx={{
+      background: 'linear-gradient(135deg, #ffffff 0%, #f5f0ff 50%, #e8e0ff 100%)',
+      minHeight: '100vh',
+      py: 8,
+      margin: 0,
+      padding: 0,
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      overflowY: 'auto',
+    }}
+  >
+    <br>
+    </br>
+    <br>
+    </br>
+    <br></br>
       <Container maxWidth="lg">
         <Box 
           sx={{ 
@@ -224,7 +237,7 @@ const Home: React.FC = () => {
               letterSpacing: '-0.02em',
             }}
           >
-            Find Your Perfect Study Space
+            ReadTheRoom
           </Typography>
 
           {!roomData && (
