@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import os
-from sqlalchemy import Column, Integer, String, Boolean, DateTime
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, Date
 from dotenv import load_dotenv
 
 
@@ -76,6 +76,31 @@ class Room(Base):
                 "permitted_volume": self.permitted_volume,
                 "status": "Open"
             })
+
+class Event(Base):
+    __tablename__ = 'events'
+    url = Column(String, primary_key=True)
+    title = Column(Text, nullable=False)
+    date = Column(Date)
+    start_time = Column(String)
+    end_time = Column(String)
+    series = Column(String)
+    description = Column(Text)
+    image_url = Column(String)
+    scraped_at = Column(DateTime)
+
+    def __get__json__(self):
+        return {
+            "url": self.url,
+            "title": self.title,
+            "date": self.date.isoformat() if self.date else None,
+            "start_time": self.start_time,
+            "end_time": self.end_time,
+            "series": self.series,
+            "description": self.description,
+            "image_url": self.image_url,
+            "scraped_at": self.scraped_at.isoformat() if self.scraped_at else None
+        }
 
 
         

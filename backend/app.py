@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
@@ -6,12 +7,13 @@ import cv2
 import io
 import base64
 import db
-from db import SessionLocal, Room 
+from db import SessionLocal, Room, Event
 import time
 from flask_sock import Sock
 import asyncio
 import json
 from chatBot import prompt_maker, ask_gemini
+from aws.scraper import scrape_past_events
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -196,6 +198,50 @@ def east_library():
         room_data['image'] = f"data:image/jpeg;base64,{img_base64}"
     
     return jsonify(room_data)
+
+@app.route('/events', methods=['GET'])
+def get_events():
+    db = SessionLocal()
+
+    # Check last scraped time
+    latest = db.query(Event).order_by(Event.scraped_at.desc()).first()
+    now = datetime.utcnow()
+
+    if not latest or (now - latest.scraped_at) > timedelta(days=1):
+        print("Refreshing events...")
+
+        # Delete existing events
+        db.query(Event).delete()
+        db.commit()
+
+        # Scrape new events
+        scraped_data = scrape_past_events()
+        new_events = []
+
+        for e in scraped_data:
+            try:
+                event = Event(
+                    url=e['url'],
+                    title=e['title'],
+                    date=datetime.strptime(e['date'], '%Y-%m-%d').date() if e['date'] else None,
+                    start_time=e['start_time'],
+                    end_time=e['end_time'],
+                    series=e['series'],
+                    description=e['description'],
+                    image_url=e['image_url'],
+                    scraped_at=datetime.utcnow()
+                )
+                new_events.append(event)
+            except Exception as err:
+                print(f"Skipping event due to error: {err}")
+
+        db.add_all(new_events)
+        db.commit()
+
+    # Return events as JSON
+    events = db.query(Event).order_by(Event.date.desc()).all()
+    return jsonify([event.__get__json__() for event in events][::-1])
+
 
 sock = Sock(app)
 @sock.route('/ask')
