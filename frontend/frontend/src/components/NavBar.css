@@ -1,59 +1,66 @@
 .navbar-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #814491;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
-  
-  .navbar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 8px 0; /* Add vertical padding */
-  }
-  
-  .navbar-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-left: 16px; /* Align to the very left */
-  }
-  
-  .navbar-right {
-    display: flex;
-    align-items: center;
-    margin-right: 16px; /* Align to the very right */
-  }
-  
-  .about-us-button,
-  .github-button,
-  .home-button {
-    font-size: 14px;
-    font-weight: 500;
-    border: 1px solid #ccc;
-    background-color: #d3d3d3; /* Set button background to gray */
-    color: #000;
-    padding: 8px 12px; /* Add padding for button size */
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none; /* Remove underline for links styled as buttons */
-  }
-  
-  .about-us-button:hover,
-  .github-button:hover,
-  .home-button:hover {
-    background-color: #a9a9a9; /* Darker gray on hover */
-    color: #333;
-  }
-  
-  .github-icon {
-    width: 16px;
-    height: 16px;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to right, #6a1b9a, #8e24aa, #ab47bc);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.navbar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 24px;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+* {
+  box-sizing: border-box;
+}
+
+
+.about-us-button,
+.github-button,
+.home-button {
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(4px);
+}
+
+.about-us-button:hover,
+.github-button:hover,
+.home-button:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+.github-icon {
+  width: 18px;
+  height: 18px;
+  stroke: white;
+}
+
+

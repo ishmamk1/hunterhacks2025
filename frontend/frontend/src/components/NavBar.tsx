@@ -9,7 +9,6 @@ export default function Navbar() {
         <a href = "/about"> <button className="about-us-button">About Us</button> </a>
         <a href="/chat" className="home-button">Chat</a>
         <a href="/events" className="home-button">Events</a>
-        <a href="/" className="home-button">Home</a>
         </div>
 
         {/* Right: GitHub Icon Button */}
